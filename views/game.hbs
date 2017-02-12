@@ -6,15 +6,14 @@
 <div class="main-div container">
   <h1 class="fadeIn page-title">question #<span class="counter">1</span>:</h1>
   <p class="question">{{question}}</p>
-
   <ul id="mc">
     {{#each answers}}
-    {{#if this.correct}}
-      <li class="mc-list"><button class="mc-btn correct" data-correct="true">{{this.answer}}</button></li>
-    {{else}}
-      <li class="mc-list"><button class="mc-btn incorrect" data-correct="false">{{this.answer}}</button></li>
-    {{/if}}
-  {{/each}}
+      {{#if this.correct}}
+        <li class="mc-list"><button class="mc-btn correct" data-correct="true">{{this.answer}}</button></li>
+      {{else}}
+        <li class="mc-list"><button class="mc-btn incorrect" data-correct="false">{{this.answer}}</button></li>
+      {{/if}}
+    {{/each}}
   </ul>
   <div class="score-counter">
     <p>playerScore: <span id="score">0</span></p>
@@ -27,6 +26,6 @@
 <p id="mongoId" style="display: none">{{mongoId}}</p>
 
 <input type="hidden" value="{{name}}" id="username">
-<audio src="/assets/tekkenTagOgreTheme.mp3" autoplay>
+{{!-- <audio src="/assets/tekkenTagOgreTheme.mp3" autoplay>
   <embed src="/assets/tekkenTagOgreTheme.mp3" width="180" height="90" hidden="true" />
-</audio>
+</audio> --}}

@@ -1,31 +1,3 @@
-var socket = io();
-var $startBtn = $('#startBtn');
-var $joinBtn = $('#joinBtn');
-var $correct = $('.correct');
-var $incorrect = $('.incorrect');
-var userName = $('#username').val();
-var $playerMode = $('#gameMode').text();
-
-var mongoId = $('#mongoId').text();
-
-console.log(userName);
-
-var room = window.location.pathname;
-
-var startBtn = $('#start-btn');
-
-socket.on('connect', function() {
-  console.log('client connected');
-  var player = {
-    id: socket.id,
-    name: userName,
-    score: 0,
-    room: room,
-    mongoId: mongoId
-  }
-  socket.emit('room', {room: room, player: player});
-});
-
 function removeEventListeners() {
   $('body').off('click', '.correct', correctAnswer);
   $('body').off('click', '.incorrect', incorrectAnswer);
@@ -36,7 +8,6 @@ function addEventListeners() {
   $('body').on('click', '.incorrect', incorrectAnswer);
 }
 
-var counter = $('.counter').text();
 function addToCounter() {
   counter++;
   $('.counter').text(counter);
@@ -49,55 +20,19 @@ function addToCounter() {
   }
 }
 
-function getWinner(players) {
-  players.sort(function(a, b){
-    return b.score - a.score;
-  });
-  return players[0];
-}
-
-socket.once('score card winner', function(players){
-  var winner = players.winner;
-  var loser = players.loser;
-  if ($playerMode === 'Multiplayer') {
-    html = '<div class="container scoreboard"><h1>GAME OVER</h1><h3>YOU WIN</h3>';
-    html += '<h5>' + winner.name + ' Score: ' + winner.score + '</h5><h5>' +
-            loser.name + ' Score: ' + loser.score + '</h5></div>';
-    $('.container').html(html);
-    if (players.winner.id === socket.id) {
-      console.log('sent put request');
-      console.log('put score for winner')
-      //putScores(winner, loser);
-      putScores(winner, loser);
-    }
-
-    // if(players.loser.id === socket.id) {
-    //   console.log('put score for loser')
-    //   putScores(loser)
-
-    // }
-  } else {
-      html = '<div class="container scoreboard"><h1>GAME RESULTS</h1><h5> Your Score: ' + winner.score + '</h5>';
-      $('.container').html(html);
-    }
-});
-
-socket.once('score card loser', function(players){
-  var winner = players.winner;
-  var loser = players.loser;
-  html = '<div class="container scoreboard"><h1>GAME OVER</h1><h3>YOU LOSE</h3>';
-  html += '<h5>' + winner.name + ' Score: ' + winner.score + '</h5><h5>' +
-          loser.name + ' Score: ' + loser.score + '</h5></div>';
-  $('.container').html(html);
-});
-
-
 function putScores(winner, loser) {
   $.ajax({
     url: '/scores',
     method: 'put',
     data: {winner: winner, loser: loser}
   });
+}
+
+function getWinner(players) {
+  players.sort(function(a, b){
+    return b.score - a.score;
+  });
+  return players[0];
 }
 
 function renderHtml(question) {
@@ -126,32 +61,6 @@ function getQuestion(emitTo, answer) {
   });
 }
 
-socket.on('get question', function(question){
-  renderHtml(question);
-});
-
-// CORRECT ANSWER CLICK
-
-function correctAnswer() {
-  var answerText = $(this).text();
-  getQuestion('correct click', answerText);
-}
-
-$('body').on('click', '.correct', correctAnswer);
-
-socket.on('correct click', function(data) {
-  removeEventListeners();
-  $('li').each( function(el) {
-    if ($(this).text() === data.answer) {
-      $(this).children().addClass('green');
-    }
-  });
-  setTimeout(function() {
-    renderHtml(data.question);
-  }, 1000);
-});
-
-// WRONG ANSWER CLICK
 function incorrectAnswer() {
   removeEventListeners();
   var answerText = $(this).text();
@@ -168,8 +77,61 @@ function incorrectAnswer() {
     }
 }
 
-$('body').on('click', '.incorrect', incorrectAnswer);
+function correctAnswer() {
+  var answerText = $(this).text();
+  getQuestion('correct click', answerText);
+}
 
+var socket = io();
+var userName = $('#username').val();
+var $startBtn = $('#startBtn');
+var startBtn = $('#start-btn');
+var $joinBtn = $('#joinBtn');
+var $correct = $('.correct');
+var $incorrect = $('.incorrect');
+var $playerMode = $('#gameMode').text();
+var mongoId = $('#mongoId').text();
+var counter = $('.counter').text();
+
+var room = window.location.pathname;
+
+console.log(userName);
+socket.on('connect', function() {
+  console.log('client connected');
+  var player = {
+    id: socket.id,
+    name: userName,
+    score: 0,
+    room: room,
+    mongoId: mongoId
+  }
+  socket.emit('room', {room: room, player: player});
+});
+
+//Create Game Room
+$startBtn.on('click', function(){
+  var cat = $('select').val();
+  var randURL = '/game/';
+  randURL += randWord();
+  $('form').attr('action', `${randURL}?category=${cat}`);
+});
+
+// CORRECT ANSWER CLICK
+$('body').on('click', '.correct', correctAnswer);
+socket.on('correct click', function(data) {
+  removeEventListeners();
+  $('li').each( function(el) {
+    if ($(this).text() === data.answer) {
+      $(this).children().addClass('green');
+    }
+  });
+  setTimeout(function() {
+    renderHtml(data.question);
+  }, 1000);
+});
+
+// WRONG ANSWER CLICK
+$('body').on('click', '.incorrect', incorrectAnswer);
 socket.on('incorrect click', function(data) {
   $('li').each( function(el) {
     if ($(this).text() === data) {
@@ -178,26 +140,57 @@ socket.on('incorrect click', function(data) {
   });
 });
 
+// Render Score
 socket.on('get score', function(score){
   $('#score').text(score);
 });
 
-
-$startBtn.on('click', function(){
-  var cat = $('select').val();
-  var randURL = '/game/';
-  randURL += randWord();
-  $('form').attr('action', `${randURL}?category=${cat}`);
+// Retrieve next question
+socket.on('get question', function(question){
+  renderHtml(question);
 });
 
+// Game Results
+socket.once('score card winner', function(players){
+  var winner = players.winner;
+  var loser = players.loser;
+  if ($playerMode === 'Multiplayer') {
+    html = '<div class="container scoreboard"><h1>GAME OVER</h1><h3>YOU WIN</h3>';
+    html += '<h5>' + winner.name + ' Score: ' + winner.score + '</h5><h5>' +
+            loser.name + ' Score: ' + loser.score + '</h5></div>';
+    $('.container').html(html);
+    if (players.winner.id === socket.id) {
+      console.log('sent put request');
+      console.log('put score for winner')
+      //putScores(winner, loser);
+      putScores(winner, loser);
+    }
+    // if(players.loser.id === socket.id) {
+    //   console.log('put score for loser')
+    //   putScores(loser)
 
-//Profile Update rendering
+    // }
+  } else {
+      html = '<div class="container scoreboard"><h1>GAME RESULTS</h1><h5> Your Score: ' + winner.score + '</h5>';
+      $('.container').html(html);
+    }
+});
+
+socket.once('score card loser', function(players){
+  var winner = players.winner;
+  var loser = players.loser;
+  html = '<div class="container scoreboard"><h1>GAME OVER</h1><h3>YOU LOSE</h3>';
+  html += '<h5>' + winner.name + ' Score: ' + winner.score + '</h5><h5>' +
+          loser.name + ' Score: ' + loser.score + '</h5></div>';
+  $('.container').html(html);
+});
+
+// Profile Update rendering
 var $profEdit = $('.profileEdit');
 var $profEditDivBtn = $('.profileEdit>button');
 var $profEditLink = $('#profEditLink');
 var $profUserNameEdit = $('#profUserNameEdit');
 var $input = $('.profileEdit>input');
-
 
 $profEditLink.on('click', function(evt){
   $profEdit.css('display', 'inline');
@@ -213,5 +206,3 @@ $profEditDivBtn.on('click', function(evt){
     data: {newName: $input.val()}
   });
 });
-
-
