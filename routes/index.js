@@ -77,7 +77,15 @@ router.get('/game/:id', (req, res, next) => {
               gameRooms.find({url: fullUrl}, function(err, results) {
                 var formatted_results = results[0].firstQuestion[0];
                 getUsername(req.session.user.id, function(name){
-                  res.render('game', {question: formatted_results.question, answers: formatted_results.answers, name: name, category: cat, playerMode: req.query.playerMode, mongoId: req.session.user.id, avatar: req.session.user.image.url});
+                  res.render('game', {
+                    question: formatted_results.question,
+                    answers: formatted_results.answers,
+                    name: name,
+                    category: cat,
+                    playerMode: results[0].gameMode,
+                    mongoId: req.session.user.id,
+                    avatar: req.session.user.image.url
+                  });
                 });
               });
             }
@@ -91,7 +99,11 @@ router.get('/browse', (req, res, next) => {
     res.redirect('/')
   } else {
     Profile.find({}, (err, allData) => {
-      res.render('browse',  { title: 'browseProfiles', profile: allData, avatar: req.session.user.image.url});
+      res.render('browse',  {
+        title: 'browseProfiles',
+        profile: allData,
+        avatar: req.session.user.image.url
+      });
     });
   }
 });
@@ -124,7 +136,11 @@ router.get('/user', (req, res, next) => {
   } else {
     var userId = req.session.user.id;
     Profile.findOne({_id: userId}, (err, userData) => {
-      res.render('profile', {title: 'playerProfile', info: userData, avatar: req.session.user.image.url});
+      res.render('profile', {
+        title: 'playerProfile',
+        info: userData,
+        avatar: req.session.user.image.url
+      });
     });
   }
 });
@@ -132,7 +148,11 @@ router.get('/user', (req, res, next) => {
 router.get('/user/:id', (req, res, next) => {
   var userId = req.params.id;
   Profile.findOne({_id: userId}, (err, userData) => {
-    res.render('pubProfData', {title: 'playerProfile', info: userData, avatar: req.session.user.image.url });
+    res.render('pubProfData', {
+      title: 'playerProfile',
+      info: userData,
+      avatar: req.session.user.image.url
+    });
   });
 });
 
@@ -167,8 +187,9 @@ router.delete('/game/:id', (req, res, next) => {
   gameRooms.findOneAndRemove({url: fullUrl}, function(err) {
     if (err) {
       console.log(err);
-    }
-    console.log(`The gameroom ${fullUrl} has been deleted!!!`);
+    } else {
+        console.log(`The gameroom ${fullUrl} has been deleted!!!`);
+      }
   });
 });
 

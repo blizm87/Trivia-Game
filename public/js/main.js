@@ -99,7 +99,6 @@ var userName = $('#username').val();
 var room = window.location.pathname;
 var mongoId = $('#mongoId').text();
 var $startBtn = $('#startBtn');
-// var startBtn = $('#start-btn');
 var $joinBtn = $('#joinBtn');
 var $correct = $('.correct');
 var $incorrect = $('.incorrect');
