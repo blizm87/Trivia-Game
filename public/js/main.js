@@ -48,10 +48,8 @@ function renderHtml(question) {
       }
   }
   $('#mc').html(html);
-  // Counter
-    addToCounter();
-    addEventListeners();
-  console.log($playerMode);
+  addToCounter();
+  addEventListeners();
 }
 
 function getQuestion(emitTo, answer) {
@@ -84,16 +82,16 @@ function correctAnswer() {
 
 var socket = io();
 var userName = $('#username').val();
+var room = window.location.pathname;
+var mongoId = $('#mongoId').text();
 var $startBtn = $('#startBtn');
-var startBtn = $('#start-btn');
+// var startBtn = $('#start-btn');
 var $joinBtn = $('#joinBtn');
 var $correct = $('.correct');
 var $incorrect = $('.incorrect');
 var $playerMode = $('#gameMode').text();
-var mongoId = $('#mongoId').text();
 var counter = $('.counter').text();
 
-var room = window.location.pathname;
 
 console.log(userName);
 socket.on('connect', function() {

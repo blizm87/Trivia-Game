@@ -1,6 +1,6 @@
 var players = [];
 
-function sockets(io) {
+function gameRoomSocket(io) {
   io.on('connection', socket => {
     // console.log('I am the io!!!');
     socket.on('room', function(data) {
@@ -68,5 +68,5 @@ function sockets(io) {
   });
 }
 
-module.exports = sockets;
+module.exports = gameRoomSocket;
 
