@@ -1,14 +1,12 @@
 <nav>
-  <a class="home" href="/">Home</a>
-  <a class="menu" href="/user">Profile</a>
-  <a class="menu" href="/browse">Browse</a>
+  <a class="home" href="/"><img class="icon" src="http://i.imgur.com/PgxrRFA.png?1" alt="home"></a>
+  <a class="menu" href="/user"><img class="avatar" src="{{avatar}}" alt="avatar"></a>
+  <a class="menu" href="/browse"><img class="icon" src="http://i.imgur.com/DtKBRC0.png?1" alt="browse"></a>
 </nav>
-<div class="container">
-  <h1>{{ title }}</h1>
+<div class="main-div container">
+  <h1 class="fadeIn page-title">{{ title }}</h1>
   {{# each profile }}
-    <h6 style="display: inline-block;">Profile Name: <a href="user/{{ this._id }}">{{ this.name }}</a></h6>
-    <a href="user/{{ this._id }}" style="display: inline-block; text-indent: 1em;">
-    <img src="{{ this.avatar }}"></a>
+    <div class="prof-name"><img class="prof-avatar" src="{{ this.avatar }}"><a class="prof-name" href="user/{{ this._id }}">{{ this.name }}</a></div>
     <br>
     <br>
   {{/each}}

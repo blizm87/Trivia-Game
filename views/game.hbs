@@ -1,22 +1,31 @@
 <nav>
-{{!-- just a placeholder --}}
+  <a class="home" href="/"><img class="icon" src="http://i.imgur.com/PgxrRFA.png?1" alt="home"></a>
+  <a class="menu" href="/user"><img class="avatar" src="{{avatar}}" alt="avatar"></a>
+  <a class="menu" href="/browse"><img class="icon" src="http://i.imgur.com/DtKBRC0.png?1" alt="browse"></a>
 </nav>
-<div class="container">
-  <h1>Question #<span class="counter">1</span>:</h1>
+<div class="main-div container">
+  <h1 class="fadeIn page-title">question #<span class="counter">1</span>:</h1>
   <p class="question">{{question}}</p>
-
   <ul id="mc">
     {{#each answers}}
-    {{#if this.correct}}
-      <li class="mc-list"><button class="mc-btn correct" data-correct="true">{{this.answer}}</button></li>
-    {{else}}
-      <li class="mc-list"><button class="mc-btn incorrect" data-correct="false">{{this.answer}}</button></li>
-    {{/if}}
-  {{/each}}
+      {{#if this.correct}}
+        <li class="mc-list"><button class="mc-btn correct" data-correct="true">{{this.answer}}</button></li>
+      {{else}}
+        <li class="mc-list"><button class="mc-btn incorrect" data-correct="false">{{this.answer}}</button></li>
+      {{/if}}
+    {{/each}}
   </ul>
   <div class="score-counter">
-    <p>Player Score: <span id="score">0</span></p>
+    <p>playerScore: <span id="score">0</span></p>
   </div>
 </div>
 
 <p id="gameUrl" style="display: none">{{gameUrl}}</p>
+<p id="category" style="display: none">{{category}}</p>
+<p id="gameMode" style="display: none">{{playerMode}}</p>
+<p id="mongoId" style="display: none">{{mongoId}}</p>
+
+<input type="hidden" value="{{name}}" id="username">
+{{!-- <audio src="/assets/tekkenTagOgreTheme.mp3" autoplay>
+  <embed src="/assets/tekkenTagOgreTheme.mp3" width="180" height="90" hidden="true" />
+</audio> --}}

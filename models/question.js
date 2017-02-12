@@ -4,6 +4,6 @@ var mongoose = require('mongoose');
 var questionSchema = new mongoose.Schema({
   question: String,
   answers: []
-})
+});
 
 module.exports = questionSchema;

@@ -6,8 +6,8 @@ var userProfiles = new mongoose.Schema({
   avatar: String,
   score: { gamesWon: Number, gamesPlayed: Number},
   createdAt: { type: Date, default: Date.now }
-})
+});
 
-var userProfile = mongoose.model('userProfiles', userProfiles)
+var userProfile = mongoose.model('userProfiles', userProfiles);
 
-module.exports = userProfile
+module.exports = userProfile;

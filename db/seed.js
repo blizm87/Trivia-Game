@@ -1,6 +1,6 @@
-require('./config')
+require('./config');
 // Require models
-const userProfile = require('../models/userProfiles.js')
+const userProfile = require('../models/userProfiles.js');
 
 var playerOne = new userProfile({
   _id: 1234567890,
@@ -8,6 +8,6 @@ var playerOne = new userProfile({
   profileName: 'MyProfileName',
   avatar: 'URL To my avatar img',
   score: {gamesWon: 50, gamesPlayed: 678}
-})
+});
 
 playerOne.save();

@@ -1,25 +1,18 @@
 <nav>
-  <a class="home" href="/">Home</a>
-  <a class="menu" href="/user">Profile</a>
-  <a class="menu" href="/browse">Browse</a>
+  <a class="home" href="/"><img class="icon" src="http://i.imgur.com/PgxrRFA.png?1" alt="home"></a>
+  <a class="menu" href="/user"><img class="avatar" src="{{avatar}}" alt="avatar"></a>
+  <a class="menu" href="/browse"><img class="icon" src="http://i.imgur.com/DtKBRC0.png?1" alt="browse"></a>
 </nav>
-<div class="container">
-   <h1>{{ title }}</h1>
-   <p><div id="profUserNameEdit">Username: {{ info.name }} <a href="#" id="profEditLink">Edit</a></div>
-      <form method="post" action="/user" class="profileEdit">
-        <input id="nameReplace" name="newName" class="profileEdit" placeholder="Replace profile name">
-        <button type="submit" class="profileEdit">Submit Change</button>
-      </form>
-   </p>
-   <p>Games Won: {{ wins }}</p>
-   <p>Games Played: {{ totalGames }}</p>
+<div class="main-div container">
+  <h1 class="fadeIn page-title">{{ title }}</h1>
+  <img class="prof-avatar" src="{{ info.avatar }}">
+  <p id="profUserNameEdit"> {{ info.name }}  <a href="#" id="profEditLink"> edit</a></p>
+  <form action="/user" class="profileEdit">
+    <input id="nameReplace" name="newName" class="profileEdit" placeholder="update username">
+    <button type="submit" class="profileEdit">submit</button>
+  </form>
+  <p>gamesWon: {{ info.score.gamesWon }}</p>
+  <p>gamesPlayed: {{ info.score.gamesPlayed }}</p>
+  <a href="/auth/logout">logout</a>
 </div>
-
-<h1>Profile Page</h1>
-
-{{!-- Display User Information --}}
-{{ info.name }}
-<img src="{{ info.avatar }}">
-{{!-- Display a link to logout --}}
-<a href="/auth/logout">Logout</a>
 

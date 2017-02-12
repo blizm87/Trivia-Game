@@ -1,18 +1,12 @@
 <nav>
-  <a href="/">Home</a>
-  <a href="/user">Profile</a>
-  <a href="/browse">Browse Profiles</a>
+  <a class="home" href="/"><img class="icon" src="http://i.imgur.com/PgxrRFA.png?1" alt="home"></a>
+  <a class="menu" href="/user"><img class="avatar" src="{{avatar}}" alt="avatar"></a>
+  <a class="menu" href="/browse"><img class="icon" src="http://i.imgur.com/DtKBRC0.png?1" alt="browse"></a>
 </nav>
-<div class="container">
-   <h1>{{ title }}</h1>
-   <p>Username: {{ info.name }}</p>
-   <p>Games Won: {{ wins }}</p>
-   <p>Games Played: {{ totalGames }}</p>
+<div class="main-div container">
+   <h1 class="fadeIn page-title">{{ title }}</h1>
+   <img class="prof-avatar" src="{{ info.avatar }}">
+   <p>{{ info.name }}</p>
+   <p>gamesWon: {{ info.score.gamesWon }}</p>
+   <p>gamesPlayed: {{ info.score.gamesPlayed }}</p>
 </div>
-
-<h1>Profile Page</h1>
-
-{{!-- Display User Information --}}
-<img src="{{ info.avatar }}">
-{{!-- Display a link to logout --}}
-

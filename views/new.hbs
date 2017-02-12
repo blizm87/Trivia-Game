@@ -1,26 +1,35 @@
 <nav>
-  <a class="home" href="/">Home</a>
-  <a class="menu" href="/user">Profile</a>
-  <a class="menu" href="/browse">Browse</a>
+  <a class="home" href="/"><img class="icon" src="http://i.imgur.com/PgxrRFA.png?1" alt="home"></a>
+  <a class="menu" href="/user"><img class="avatar" src="{{avatar}}" alt="avatar"></a>
+  <a class="menu" href="/browse"><img class="icon" src="http://i.imgur.com/DtKBRC0.png?1" alt="browse"></a>
 </nav>
-<div class="container">
-  <h1>{{ title }}</h1>
-{{!--   <select class="">
-    <option value="Option 1">Select a Category:</option>
-    <option value="Option 2">General Knowledge</option>
-    <option value="Option 3">Entertainment: Comics</option>
-    <option value="Option 3">Entertainment: Music</option>
-    <option value="Option 3">Entertainment: Television</option>
-    <option value="Option 3">Geography</option>
-    <option value="Option 3">History</option>
-    <option value="Option 3">Science: Computers</option>
-    <option value="Option 3">Sports</option>
-  </select> --}}
+<div class="main-div container">
+  <h1 class="fadeIn page-title">{{ title }}</h1>
 
   <form method="GET">
-    <button class="button" id='startBtn'>Create Game</button>
+    <select id="categories" name="category" required>
+      <option value="9">General Knowledge</option>
+      <option value="29">Entertainment: Comics</option>
+      <option value="12">Entertainment: Music</option>
+      <option value="14">Entertainment: Television</option>
+      <option value="22">Geography</option>
+      <option value="23">History</option>
+      <option value="18">Science: Computers</option>
+      <option value="21">Sports</option>
+    </select>
+    <select id="playerMode" name="playerMode" required>
+      <option value="Single Player">Single Player</option>
+      <option value="Multiplayer">Multiplayer</option>
+    </select>
+    <br>
+    <button class="game-btn button" id="startBtn">Create</button>
   </form>
+
+  <span>- or -</span>
+
+  <br><br>
   <form method="GET" action="/join">
-    <button class="button" id='joinBtn'>Join Game</button>
+    <button class="game-btn button" id='joinBtn'>Join</button>
   </form>
+  {{ noGameAlert }}
 </div>
