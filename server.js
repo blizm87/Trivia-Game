@@ -35,4 +35,4 @@ const sockets = require('./routes/sockets')(io);
 const port = process.env.PORT || 3000;
 http.listen(port, () => {
   console.log(`Listening on ${port}`);
-})
+});
