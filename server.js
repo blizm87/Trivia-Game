@@ -7,8 +7,8 @@ const hbs = require('express-handlebars');
 const methodOverride = require('method-override');
 const morgan = require('morgan');
 const path = require('path');
-const app = express();
 
+const app = express();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 
@@ -30,7 +30,8 @@ app.use('/profile', require('./routes/profile'));
 app.use(require('./routes/error'));
 
 // SOCKET
-const sockets = require('./routes/sockets')(io);
+const gameRoomSocket = require('./routes/gameRoomSocket')(io);
+const inGameChatSocket = require('./routes/inGameChatSocket')(io);
 
 const port = process.env.PORT || 3000;
 http.listen(port, () => {
