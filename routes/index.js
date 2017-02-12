@@ -6,6 +6,12 @@ const answerShuffle = require('../lib/answerShuffle.js');
 const Profile = require('../models/userProfiles.js');
 const gameRooms = require('../models/gameRooms.js');
 
+function getUsername(id, callback) {
+  Profile.findById(id, function(err, results){
+    callback(results.name);
+  });
+}
+
 router.get('/', (req, res, next) => {
   if (!req.session.user) {
     res.render('index', {title: 'triviaGame'});
@@ -28,12 +34,6 @@ router.get('/question', (req, res, next) => {
     });
   });
 });
-
-function getUsername(id, callback) {
-  Profile.findById(id, function(err, results){
-    callback(results.name);
-  });
-}
 
 router.get('/game/:id', (req, res, next) => {
   if (!req.session.user) {
