@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 mongoose.Promise = Promise
-const url = process.env.MONGODB_URI || 'mongodb://localhost/trivia';
+const url = process.env.MONGODB_URI || 'mongodb://localhost/justinsTrivia';
 
 
 mongoose.connect(url);
